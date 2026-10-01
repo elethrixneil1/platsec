@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Platform architecture, the Trusted Platform Module (TPM), and virtualization security explained.">
+    <title>Platform Security | Architecture, TPM &amp; Virtualization</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <a class="skip" href="#architecture">Skip to content</a>
+    <header class="site-header">
+        <nav aria-label="Main navigation">
+            <a class="brand" href="#home">Platform Security</a>
+            <div class="nav-links">
+                <a href="#architecture">Layers</a>
+                <a href="#tpm">TPM</a>
+                <a href="#virtualization">Virtualization</a>
+                <a href="#quiz">Quiz</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="hero" id="home">
+        <div class="wrap hero-grid">
+            <div>
+                <p class="kicker">ITA 216 Platform Security</p>
+                <h1>Secure every layer of the platform.</h1>
+                <p class="lead">From the hardware and firmware that start a computer, to the virtual machines that run on top of it, learn how platforms are built and how they are attacked and protected.</p>
+                <a class="button" href="#architecture">Explore the layers</a>
+            </div>
+
+            <div class="meter-card" aria-labelledby="chain-title">
+                <h2 id="chain-title">Chain of trust</h2>
+                <p>Each boot stage checks the next one before handing over control.</p>
+                <ol class="chain">
+                    <li><strong>Root of Trust</strong> <span>TPM / firmware key</span></li>
+                    <li><strong>Firmware</strong> <span>checks the signed bootloader</span></li>
+                    <li><strong>Bootloader</strong> <span>checks the OS kernel</span></li>
+                    <li><strong>OS</strong> <span>verifies drivers and applications</span></li>
+                </ol>
+                <p class="result">If any step fails, boot stops or an alert is raised.</p>
+            </div>
+        </div>
+    </section>
+
+    <main>    <main>
+        <section id="architecture" class="wrap">
+            <h2>Layers of a computing platform</h2>
+            <p class="section-intro">Every layer has a job, and every layer has its own attack surface.</p>
+            <div class="habits">
+                <article><h3>Hardware</h3><p>Physical components: CPU, memory, storage, and peripherals. Attack surface: side-channel attacks and physical tampering, where an adversary gains direct, hands-on access to the hardware hosting a platform.</p></article>
+                <article><h3>Firmware</h3><p>BIOS/UEFI, device firmware, and initialization processes. Attack surface: BIOS/UEFI rootkits and firmware backdoors.</p></article>
+                <article><h3>Operating system (OS)</h3><p>Manages hardware, runs applications, and enforces security. Attack surface: privilege escalation and kernel exploits.</p></article>
+                <article><h3>Applications</h3><p>Software that provides user-level services. Attack surface: malware and unpatched software vulnerabilities.</p></article>
+            </div>
+        </section>
+
+        <section id="platforms" class="band">
+            <div class="wrap">
+                <h2>Mobile, desktop, cloud and virtualization</h2>
+                <p class="section-intro">The distinction lies in how hardware components, CPU instruction sets, OS kernels, and security boundaries are layered together.</p>
+                <div class="threats">
+                    <article><h3>Mobile (Android / iOS)</h3><p>Optimized for portability and battery life, with tight integration of hardware and software. App sandboxing and stricter permissions.</p></article>
+                    <article><h3>Desktop (Windows, macOS, Linux)</h3><p>Higher performance and flexibility, and a broader software ecosystem. More customization, but a larger attack surface.</p></article>
+                    <article><h3>Cloud platforms</h3><p>Abstract physical resources and provide services on demand (Amazon Web Services, Azure). Security relies on a shared responsibility model.</p></article>
+                    <article><h3>Virtualization platforms</h3><p>Hypervisors enable multiple VMs on one physical machine. This increases resource efficiency but adds risks such as VM escape and misconfigurations.</p></article>
+                    <article><h3>Cloud vs. virtualization</h3><p>Virtualization is the core technology, while cloud computing is the service model built on top of it.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="tpm" class="wrap">
+            <h2>Trusted Platform Module (TPM)</h2>
+            <p class="section-intro">A hardware-based security chip that provides a Root of Trust for a computing platform.</p>
+            <div class="habits">
+                <article><h3>What it is</h3><p>A security chip that functions independently of the main CPU and OS. It ensures secure storage, encryption, and attestation.</p></article>
+                <article><h3>Keeps secrets safe</h3><p>Stores digital keys, certificates, and passwords in a secure chip so hackers cannot easily steal them. Think of it as a tiny safe built into your computer.</p></article>
+                <article><h3>Starts the computer safely (Secure Boot)</h3><p>When you turn on your computer, the TPM checks that the system has not been tampered with before letting it load.</p></article>
+                <article><h3>Blocks hidden startup attacks</h3><p>Hackers sometimes sneak malware in before Windows or Linux even loads. The TPM helps stop these firmware and boot-level attacks.</p></article>
+                <article><h3>UEFI</h3><p>The Unified Extensible Firmware Interface is the modern replacement for BIOS, the firmware that starts your computer. It is the first program that runs at power-on, initializes the hardware (CPU, RAM, drives), then hands control to the OS. It is the bridge between hardware and OS.</p></article>
+                <article><h3>Chain of trust</h3><p>Each stage of the boot process checks the integrity of the next before handing over control, so all software is verified, unmodified, and trusted from the moment power hits the motherboard. The steps: (1) Root of Trust, the TPM or firmware key, is the immutable baseline. (2) Firmware checks the bootloader, which must be signed. (3) The bootloader checks the OS kernel. (4) The OS verifies drivers and applications. If any step fails, boot stops or alerts are raised.</p></article>
+                <article><h3>TPM versions</h3><p>The specifications are governed by the Trusted Computing Group (TCG). TPM 1.2 offers basic crypto support (SHA-1, RSA). TPM 2.0 offers stronger algorithms (SHA-256, ECC) and flexible authorization, and is required for Windows 11 and modern enterprise-grade security solutions.</p></article>
+            </div>
+            <div class="compare">
+                <table>
+                    <caption>Direct comparison of TPM 1.2 and TPM 2.0</caption>
+                    <thead><tr><th scope="col">Feature</th><th scope="col">TPM 1.2 (legacy era)</th><th scope="col">TPM 2.0 (modern standard)</th></tr></thead>
+                    <tbody>
+                        <tr><th scope="row">Release timeline</th><td>Finalized between 2005 and 2011</td><td>Released in 2014; continuously updated</td></tr>
+                        <tr><th scope="row">Cryptographic agility</th><td>None. Algorithms are hardcoded into the silicon</td><td>High. A flexible library supporting multiple algorithms at once</td></tr>
+                        <tr><th scope="row">Hashing</th><td>Strictly SHA-1</td><td>SHA-256, SHA-384, SM3, and higher</td></tr>
+                        <tr><th scope="row">Asymmetric encryption</th><td>RSA only (up to 2048-bit)</td><td>RSA, Elliptic Curve Cryptography (ECC), and SM2</td></tr>
+                        <tr><th scope="row">Primary boot target</th><td>Legacy BIOS layouts</td><td>Modern UEFI boot environment</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="habits tight">
+                <article><h3>Security benefits</h3><p>Protects against rootkits and bootkits, key theft, and unauthorized firmware changes. It provides hardware-enforced trust instead of relying on software-only security.</p></article>
+                <article><h3>Limitations</h3><p>Requires hardware support (not all devices have it). If the TPM fails, access to encrypted data may be lost. It cannot stop OS-level malware once the system has booted, and physical attacks on the chip (an advanced threat) are still possible.</p></article>
+            </div>
+        </section>
+
+        <section id="virtualization" class="band">
+            <div class="wrap">
+                <h2>Virtualization</h2>
+                <p class="section-intro">A technology that lets multiple virtual machines (VMs) run concurrently on a single physical server.</p>
+                <div class="threats">
+                    <article><h3>Core ideas</h3><p><strong>Consolidated hardware:</strong> one physical server hosts many virtual environments. <strong>Isolated environments:</strong> each VM runs independently with its own OS and applications. <strong>Maximized utilization:</strong> makes the most of the underlying hardware.</p></article>
+                    <article><h3>Types of virtualization</h3><p><strong>Server:</strong> many virtual servers on one physical server (most common). <strong>Desktop:</strong> virtual desktop infrastructure (VDI) and remote access. <strong>Network:</strong> virtual networks independent of hardware. <strong>Storage:</strong> pooled storage from multiple devices. <strong>Application:</strong> apps run in isolated environments.</p></article>
+                    <article><h3>Types of hypervisor</h3><p>The hypervisor is a software layer that allocates physical resources to VMs, ensuring isolation and efficient operation. <strong>Type 1 (bare-metal)</strong> runs directly on hardware with high performance and security (VMware ESXi, Microsoft Hyper-V). <strong>Type 2 (hosted)</strong> runs on a host OS (VirtualBox, VMware Workstation).</p></article>
+                    <article><h3>Benefits</h3><p><strong>Cost reduction:</strong> no millions spent on idle physical servers. <strong>Agility:</strong> deploy, scale, adapt, or recover quickly. <strong>Disaster recovery:</strong> restore software and data fast after an outage. <strong>Improved management:</strong> a single operational interface. <strong>Testing and compatibility:</strong> simulate many operating systems, screen sizes, and hardware setups.</p></article>
+                    <article><h3>Popular platforms</h3><p><strong>Enterprise:</strong> VMware vSphere, Microsoft Hyper-V, Citrix XenServer, Red Hat Virtualization. <strong>Desktop and development:</strong> VMware Workstation/Fusion, Oracle VirtualBox, Parallels Desktop, QEMU/KVM.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section id="vm-security" class="wrap">
+            <h2>Security of virtual environments</h2>
+            <p class="section-intro">Virtualization adds efficiency, and adds its own risks.</p>
+            <div class="habits">
+                <article><h3>Hyperjacking</h3><p>An attacker gains control of the hypervisor itself, effectively taking over all hosted VMs. It is dangerous because the hypervisor has the highest privilege level, so attackers can monitor, manipulate, or shut down every VM. Example: a malicious hypervisor installed underneath an existing OS (a "blue pill" attack). Countermeasures: apply regular hypervisor patching, and limit admin/root access with MFA and strict role separation.</p></article>
+                <article><h3>VM escape</h3><p>Malicious code inside a VM breaks isolation and reaches the hypervisor or host. From the host the attacker can control all other VMs, which violates the core promise of virtualization: isolation.</p></article>
+                <article><h3>Misconfiguration</h3><p>Weaknesses caused by insecure administrator settings, not flaws in the hypervisor. Examples: too many privileges for VM users, flat virtual networks without VLANs or segmentation, weak or default management console credentials, and overcommitting CPU and RAM, which can lead to denial-of-service.</p></article>
+                <article><h3>VM isolation techniques</h3><p>Strong separation so each VM acts as an independent system; resource allocation controls (CPU, RAM, storage quotas); access control to prevent unauthorized VM-to-VM access; and snapshot monitoring to detect rollback attacks.</p></article>
+                <article><h3>Secure VM networking</h3><p>Virtual switches control VM traffic, VLANs separate workloads, firewall rules apply per VM or per network segment, and IDS/IPS integration detects malicious VM traffic.</p></article>
+                <article><h3>Snapshots and rollback</h3><p>Snapshots save system state for recovery and testing. Risks: rollback to vulnerable versions and exposure of sensitive data in snapshots. Best practices: encrypt snapshots, monitor and control snapshot creation, and patch and update after a rollback.</p></article>
+            </div>
+        </section>
+
+        <section id="checklist" class="band">
+            <div class="wrap">
+                <h2>Best practices checklist</h2>
+                <p class="section-intro">Best practices for virtualization security. Tick them off as you review.</p>
+                <div class="progress" role="progressbar" aria-label="Checklist progress" aria-valuemin="0" aria-valuemax="5" aria-valuenow="0"><span id="progress-fill"></span></div>
+                <p id="progress-text" class="progress-text">0 of 5 done</p>
+                <ul class="checklist">
+                    <li><label><input type="checkbox"> Keep the hypervisor updated and patched.</label></li>
+                    <li><label><input type="checkbox"> Enforce strict access controls.</label></li>
+                    <li><label><input type="checkbox"> Use security baselines: CIS (Center for Internet Security) and NIST (National Institute of Standards and Technology).</label></li>
+                    <li><label><input type="checkbox"> Monitor VM behavior with logs and alerts.</label></li>
+                    <li><label><input type="checkbox"> Encrypt VM images and storage.</label></li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="quiz" class="wrap">
+            <h2>Test your knowledge</h2>
+            <p class="section-intro">Ten questions covering the whole guide. Pick an answer to see the explanation.</p>
+            <div class="quiz" id="quiz-box" aria-live="polite"></div>
+        </section>
+    </main>
+        <div class="wrap">
+            <h2>Learn, verify, protect.</h2>
+            <p>A collaborative project by three BSIT-2B students • ITA 216 Platform Security</p>
+            <p><small>Based on the course slides on Platform Architecture, TPM, and Virtualization. For learning purposes only.</small></p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
